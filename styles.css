@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #4D4D4D;
+}
+
+#website_container {
+    height: 100vh;
+    width: 100%;
+    border: 20px solid #CAC6C3;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.top-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: calc(80% - 10px);
+    margin-bottom: 10px;
+    gap: 20px;
+}
+
+.bottom-row {
+    height: 20%; /* 20% of available height */
+    padding: 20px;
+    background-color: #1D1F1E;
+}
+
+#left-column {
+    width: 75%;
+    background-color: #1D1F1E;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) inset;
+}
+
+#right-column {
+    width: 25%;
+    border: 10px solid #CAC6C3;
+    border-radius: 10px;
+    background-color: #29292B;
+}
+
+#right-column-tv-screen {
+    height: 95%;
+    width: 95%;
+    position: relative;
+    top: 10px;
+    left: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) inset;
+    background-color: #1D1F1E;
+    display: flex;
+    flex-direction: column;
+}
+
+#right-column-all-values {
+    height: 70%;
+    padding: 20px;
+}
+
+#right-column-white-line {
+    height: 10%;
+    width: 100%;
+    border-bottom: 20px solid #29292B;
+}
+
+#right-column-curve-fitter {
+    height: 20%;
+    color: #CAC6C3;
+    background-color: #050505;
+    font-size: 35px;
+    padding-top: 25px;
+    padding-left: 15px;
+}
+
+.bottom-row {
+    height: 20%;
+    display: flex;
+    justify-content: space-around; /* Distribute knobs evenly */
+    align-items: center;
+    padding: 20px; /* Add some spacing around knobs */
+}
+
+.knob-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.knob {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--knob-color); /* Add a transparent border */
+    border-radius: 50%;
+    background-color: #222;
+    position: relative;
+    transform-origin: center;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.1); /* Inner shadow only */
+    margin-bottom: 5px;
+}
+
+.knob::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width: 6px;
+    height: 25px;
+    background-color: var(--knob-color); /* Use CSS variable for color */
+    box-shadow: 0 0 5px var(--knob-color);
+}
+
+.value-input {
+    width: 60px;
+    padding: 8px;
+    background-color: #111;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid var(--knob-color);
+}
+
+/* Chart.js Styling */
+#myChart {
+    background-color: #1D1F1E;
+    padding: 20px;
+}
+
+/* Style for individual knob values */
+.knob-value {
+    margin-bottom: 10px; /* Add space between values */
+    font-size: 25px; /* Make the font a bit larger */
+}
+
+.knob-value span {
+    font-weight: bold; /* Make the "k0", "k1", etc. bold */
+}
