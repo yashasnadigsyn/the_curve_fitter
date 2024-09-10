@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const questionDataPoints = [];
   for (let x = -10; x <= 10; x += 0.5) {
-    questionDataPoints.push({ x: x, y: calculateY(x, randomk0, randomk1, randomk2, 0, 0, 0) });
+    questionDataPoints.push({ x: x, y: calculateY(x, randomK0, randomK1, randomK2, 0, 0, 0) });
   }
 
   // Function to calculate y-values
