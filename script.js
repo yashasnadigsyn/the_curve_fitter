@@ -4,9 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const valuesContainer = document.getElementById('right-column-all-values'); // Get the container
 
   // Predefined data points for the question
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const randomK0 = getRandomNumber(-10, 10);
+  const randomK1 = getRandomNumber(-10, 10);
+  const randomK2 = getRandomNumber(-10, 10);
+  
   const questionDataPoints = [];
   for (let x = -10; x <= 10; x += 0.5) {
-    questionDataPoints.push({ x: x, y: calculateY(x, 10, 11, 12, 0, 0, 0) });
+    questionDataPoints.push({ x: x, y: calculateY(x, randomk0, randomk1, randomk2, 0, 0, 0) });
   }
 
   // Function to calculate y-values
