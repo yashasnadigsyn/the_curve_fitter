@@ -76,9 +76,11 @@ body {
     height: 20%;
     color: #CAC6C3;
     background-color: #050505;
-    font-size: 35px;
+    font-size: 30px;
     padding-top: 25px;
     padding-left: 15px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 500;
 }
 
 .bottom-row {
@@ -142,9 +144,74 @@ body {
 /* Style for individual knob values */
 .knob-value {
     margin-bottom: 10px; /* Add space between values */
-    font-size: 25px; /* Make the font a bit larger */
+    font-size: 20px; /* Make the font a bit larger */
 }
 
 .knob-value span {
     font-weight: bold; /* Make the "k0", "k1", etc. bold */
+}
+
+
+#left-column-main-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #1D1F1E, #29292B);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) inset;
+}
+
+
+.roboto-condensed-<uniquifier> {
+  font-family: "Roboto Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+#left-column-main-title {
+    color: #CAC6C3;
+    font-size: 35px;
+    padding-top: 25px;
+    padding-left: 20px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 500;
+}
+
+#left-column-main-description {
+    color: #CAC6C3;
+    font-size: 25px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 300;
+    padding: 20px;
+}
+
+.difficulty_level {
+    background: none;
+    color: var(--knob-color);
+    border: 2px solid var(--knob-color);
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 500;
+}
+
+.difficulty_level:hover {
+    background-color: var(--knob-color);
+    color: #1D1F1E;
+}
+
+#left-column-main-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
