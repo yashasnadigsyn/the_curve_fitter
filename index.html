@@ -8,13 +8,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Matemasie&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
         <div id="website_container">
             <div class="top-row">
                 <div class="column" id="left-column">
-                    <canvas id="myChart"></canvas>
+                    <div id="left-column-main-container">
+                        <div id="left-column-main-title">
+                            Curve Fitter 6000
+                        </div>
+                        <div id="left-column-main-description">
+                            Curve fitter 6000 is an old machine used to find the best fit curve by tweaking the co-efficients randomly. You can click on the 'Curve Fitter 6000' button on the right to get a best fit for the data using Gradient Descent. Choose a level of difficulty:
+                        </div>
+                        <div id="left-column-main-buttons">
+                            <button class="difficulty_level" id="very_easy" style="--knob-color: #0f0;" onclick="location.href='very_easy.html';">Very Easy</button>
+                            <button class="difficulty_level" id="easy" style="--knob-color: #00f;" onclick="location.href='easy.html';">Easy</button>
+                            <button class="difficulty_level" id="medium" style="--knob-color: #f0f;" onclick="location.href='medium.html';">Medium</button>
+                            <button class="difficulty_level" id="hard" style="--knob-color: #ff0;" onclick="location.href='hard.html';">Hard</button>
+                            <button class="difficulty_level" id="very_hard" style="--knob-color: #0ff;" onclick="location.href='very_hard.html';">Very Hard</button>
+                            <button class="difficulty_level" id="Extreme" style="--knob-color: #f00;" onclick="location.href='extreme.html';">Extreme</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="column" id="right-column">
                     <div id="right-column-tv-screen">
@@ -55,6 +73,5 @@
                 </div>
             </div>
         </div>
-        <script src="script.js"></script>
     </body>
 </html>
