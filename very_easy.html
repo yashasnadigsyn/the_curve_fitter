@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Curve Fitter 6000</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <div id="website_container">
+            <div class="top-row">
+                <div class="column" id="left-column">
+                    <canvas id="myChart"></canvas>
+               </div>
+                <div class="column" id="right-column">
+                    <div id="right-column-tv-screen">
+                        <div id="right-column-all-values">
+                        </div>
+                        <div id="right-column-white-line">
+                        </div>
+                        <div id="right-column-curve-fitter">
+                            Curve Fitter 6000
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="knob-container">
+                    <div class="knob" id="knob1" style="--knob-color: #0f0;"></div>
+                    <input type="number" class="value-input" id="k0" min="-100" max="100" value="0" style="--knob-color: #0f0;">
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="knob2" style="--knob-color: #00f;"></div>
+                    <input type="number" class="value-input" id="k1" min="-100" max="100" value="0" style="--knob-color: #00f;">
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="knob3" style="--knob-color: #f0f;"></div>
+                    <input type="number" class="value-input" id="k2" min="-100" max="100" value="0" style="--knob-color: #f0f;">
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="knob4" style="--knob-color: #ff0;"></div>
+                    <input type="number" class="value-input" id="k3" min="-100" max="100" value="0"  style="--knob-color: #ff0;">
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="knob5" style="--knob-color: #0ff;"></div>
+                    <input type="number" class="value-input" id="k4" min="-100" max="100" value="0" style="--knob-color: #0ff;">
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="knob6" style="--knob-color: #f00;"></div>
+                    <input type="number" class="value-input" id="k5" min="-100" max="100" value="0" style="--knob-color: #f00;">
+                </div>
+            </div>
+        </div>
+        <script src="very_easy_script.js"></script>
+    </body>
+</html>
