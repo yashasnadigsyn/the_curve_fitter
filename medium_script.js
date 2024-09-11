@@ -262,88 +262,133 @@ function resetKnobValues() {
 }
 
 function runGradientDescent() {
-    // Define the true function (hidden from the user)
-    function trueFunction(x) {
-        return randomK0 + randomK1 * x + randomK2 * x ** 2 + randomK3 * x ** 3 + randomK4 * x ** 4 + randomK5 * x ** 5;
-    }
 
-    // Generate noisy data points
-    const xData = [];
-    const yData = [];
-    for (let i = 0; i <= 100; i++) {
-        const x = i / 100;
-        xData.push(x);
-        yData.push(trueFunction(x) + (Math.random() * 6) - 3); // Add noise
-    }
+// True curve parameters
+const true_k0 = randomK0;
+const true_k1 = randomK1;
+const true_k2 = randomK2;
+const true_k3 = randomK3;
+const true_k4 = randomK4;
+const true_k5 = randomK5;
 
-    // Initialize weights
-    let k0 = 0;
-    let k1 = 0;
-    let k2 = 0;
-    let k3 = 0;
-    let k4 = 0;
-    let k5 = 0;
+// Generate data points from the true curve
+const x = Array.from({ length: 100 }, (_, i) => -1 + i * 2 / 99);
+const y = x.map(xi => true_k0 + true_k1 * xi + true_k2 * xi**2 + true_k3 * xi**3 + true_k4 * xi**4 + true_k5 * xi**5);
 
-    // Learning rate
-    const learningRate = 0.01;
+// Initialize parameters
+let k0 = 0, k1 = 0, k2 = 0, k3 = 0, k4 = 0, k5 = 0;
+const num_iterations = 100;
 
-    // Number of iterations
-    const iterations = 100000;
+// Define the cost function (Mean Squared Error)
+function costFunction(k0, k1, k2, k3, k4, k5, x, y) {
+    const y_pred = x.map(xi => k0 + k1 * xi + k2 * xi**2 + k3 * xi**3 + k4 * xi**4 + k5 * xi**5);
+    return y_pred.reduce((sum, yi, i) => sum + (y[i] - yi)**2, 0) / y.length;
+}
 
-    // Function to calculate predicted y values
-    function predict(x) {
-        return k0 + k1 * x + k2 * x ** 2 + k3 * x ** 3 + k4 * x ** 4 + k5 * x ** 5;
-    }
+// Define the gradient of the cost function
+function gradient(k0, k1, k2, k3, k4, k5, x, y) {
+    const y_pred = x.map(xi => k0 + k1 * xi + k2 * xi**2 + k3 * xi**3 + k4 * xi**4 + k5 * xi**5);
+    const dk0 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]), 0) / x.length;
+    const dk1 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]) * xi, 0) / x.length;
+    const dk2 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]) * xi**2, 0) / x.length;
+    const dk3 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]) * xi**3, 0) / x.length;
+    const dk4 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]) * xi**4, 0) / x.length;
+    const dk5 = -2 * x.reduce((sum, xi, i) => sum + (y[i] - y_pred[i]) * xi**5, 0) / x.length;
+    return [dk0, dk1, dk2, dk3, dk4, dk5];
+}
 
-    // Function to calculate mean squared error loss
-    function meanSquaredError() {
-        let sumSquaredErrors = 0;
-        for (let i = 0; i < xData.length; i++) {
-            const error = predict(xData[i]) - yData[i];
-            sumSquaredErrors += error ** 2;
+// Define the Hessian of the cost function
+function hessian(k0, k1, k2, k3, k4, k5, x, y) {
+    const y_pred = x.map(xi => k0 + k1 * xi + k2 * xi**2 + k3 * xi**3 + k4 * xi**4 + k5 * xi**5);
+    const dk0_dk0 = 2 * x.reduce((sum, xi) => sum + 1, 0) / x.length;
+    const dk0_dk1 = 2 * x.reduce((sum, xi) => sum + xi, 0) / x.length;
+    const dk0_dk2 = 2 * x.reduce((sum, xi) => sum + xi**2, 0) / x.length;
+    const dk0_dk3 = 2 * x.reduce((sum, xi) => sum + xi**3, 0) / x.length;
+    const dk0_dk4 = 2 * x.reduce((sum, xi) => sum + xi**4, 0) / x.length;
+    const dk0_dk5 = 2 * x.reduce((sum, xi) => sum + xi**5, 0) / x.length;
+    const dk1_dk1 = 2 * x.reduce((sum, xi) => sum + xi**2, 0) / x.length;
+    const dk1_dk2 = 2 * x.reduce((sum, xi) => sum + xi**3, 0) / x.length;
+    const dk1_dk3 = 2 * x.reduce((sum, xi) => sum + xi**4, 0) / x.length;
+    const dk1_dk4 = 2 * x.reduce((sum, xi) => sum + xi**5, 0) / x.length;
+    const dk1_dk5 = 2 * x.reduce((sum, xi) => sum + xi**6, 0) / x.length;
+    const dk2_dk2 = 2 * x.reduce((sum, xi) => sum + xi**4, 0) / x.length;
+    const dk2_dk3 = 2 * x.reduce((sum, xi) => sum + xi**5, 0) / x.length;
+    const dk2_dk4 = 2 * x.reduce((sum, xi) => sum + xi**6, 0) / x.length;
+    const dk2_dk5 = 2 * x.reduce((sum, xi) => sum + xi**7, 0) / x.length;
+    const dk3_dk3 = 2 * x.reduce((sum, xi) => sum + xi**6, 0) / x.length;
+    const dk3_dk4 = 2 * x.reduce((sum, xi) => sum + xi**7, 0) / x.length;
+    const dk3_dk5 = 2 * x.reduce((sum, xi) => sum + xi**8, 0) / x.length;
+    const dk4_dk4 = 2 * x.reduce((sum, xi) => sum + xi**8, 0) / x.length;
+    const dk4_dk5 = 2 * x.reduce((sum, xi) => sum + xi**9, 0) / x.length;
+    const dk5_dk5 = 2 * x.reduce((sum, xi) => sum + xi**10, 0) / x.length;
+
+    return [
+        [dk0_dk0, dk0_dk1, dk0_dk2, dk0_dk3, dk0_dk4, dk0_dk5],
+        [dk0_dk1, dk1_dk1, dk1_dk2, dk1_dk3, dk1_dk4, dk1_dk5],
+        [dk0_dk2, dk1_dk2, dk2_dk2, dk2_dk3, dk2_dk4, dk2_dk5],
+        [dk0_dk3, dk1_dk3, dk2_dk3, dk3_dk3, dk3_dk4, dk3_dk5],
+        [dk0_dk4, dk1_dk4, dk2_dk4, dk3_dk4, dk4_dk4, dk4_dk5],
+        [dk0_dk5, dk1_dk5, dk2_dk5, dk3_dk5, dk4_dk5, dk5_dk5]
+    ];
+}
+
+// Function to invert a matrix using Gaussian elimination
+function invertMatrix(matrix) {
+    const n = matrix.length;
+    const augmented = matrix.map((row, i) => [...row, ...Array(n).fill(0).map((_, j) => i === j ? 1 : 0)]);
+
+    for (let i = 0; i < n; i++) {
+        const factor = 1 / augmented[i][i];
+        for (let j = 0; j < 2 * n; j++) {
+            augmented[i][j] *= factor;
         }
-        return sumSquaredErrors / xData.length;
+        for (let k = 0; k < n; k++) {
+            if (k !== i) {
+                const factor = augmented[k][i];
+                for (let j = 0; j < 2 * n; j++) {
+                    augmented[k][j] -= factor * augmented[i][j];
+                }
+            }
+        }
     }
 
-    // Gradient Descent
-    for (let i = 0; i < iterations; i++) {
-        // Calculate gradients
-        let k0Gradient = 0;
-        let k1Gradient = 0;
-        let k2Gradient = 0;
-        let k3Gradient = 0;
-        let k4Gradient = 0;
-        let k5Gradient = 0;
+    return augmented.map(row => row.slice(n));
+}
 
-        for (let j = 0; j < xData.length; j++) {
-            const prediction = predict(xData[j]);
-            const error = prediction - yData[j];
-            k0Gradient += error;
-            k1Gradient += error * xData[j];
-            k2Gradient += error * xData[j] ** 2;
-            k3Gradient += error * xData[j] ** 3;
-            k4Gradient += error * xData[j] ** 4;
-            k5Gradient += error * xData[j] ** 5;
-        }
+// Newton's method
+for (let iteration = 0; iteration < num_iterations; iteration++) {
+    // Compute the gradient and Hessian
+    const grad = gradient(k0, k1, k2, k3, k4, k5, x, y);
+    const hess = hessian(k0, k1, k2, k3, k4, k5, x, y);
 
-        k0Gradient *= 2 / xData.length;
-        k1Gradient *= 2 / xData.length;
-        k2Gradient *= 2 / xData.length;
-        k3Gradient *= 2 / xData.length;
-        k4Gradient *= 2 / xData.length;
-        k5Gradient *= 2 / xData.length;
+    // Invert the Hessian matrix
+    const hessInv = invertMatrix(hess);
 
-        // Update weights
-        k0 -= learningRate * k0Gradient;
-        k1 -= learningRate * k1Gradient;
-        k2 -= learningRate * k2Gradient;
-        k3 -= learningRate * k3Gradient;
-        k4 -= learningRate * k4Gradient;
-        k5 -= learningRate * k5Gradient;
+    // Compute the update vector
+    const delta = [
+        hessInv[0][0] * grad[0] + hessInv[0][1] * grad[1] + hessInv[0][2] * grad[2] + hessInv[0][3] * grad[3] + hessInv[0][4] * grad[4] + hessInv[0][5] * grad[5],
+        hessInv[1][0] * grad[0] + hessInv[1][1] * grad[1] + hessInv[1][2] * grad[2] + hessInv[1][3] * grad[3] + hessInv[1][4] * grad[4] + hessInv[1][5] * grad[5],
+        hessInv[2][0] * grad[0] + hessInv[2][1] * grad[1] + hessInv[2][2] * grad[2] + hessInv[2][3] * grad[3] + hessInv[2][4] * grad[4] + hessInv[2][5] * grad[5],
+        hessInv[3][0] * grad[0] + hessInv[3][1] * grad[1] + hessInv[3][2] * grad[2] + hessInv[3][3] * grad[3] + hessInv[3][4] * grad[4] + hessInv[3][5] * grad[5],
+        hessInv[4][0] * grad[0] + hessInv[4][1] * grad[1] + hessInv[4][2] * grad[2] + hessInv[4][3] * grad[3] + hessInv[4][4] * grad[4] + hessInv[4][5] * grad[5],
+        hessInv[5][0] * grad[0] + hessInv[5][1] * grad[1] + hessInv[5][2] * grad[2] + hessInv[5][3] * grad[3] + hessInv[5][4] * grad[4] + hessInv[5][5] * grad[5]
+    ];
 
-        // Log progress
-        const loss = meanSquaredError();    }
+    // Update parameters
+    k0 -= delta[0];
+    k1 -= delta[1];
+    k2 -= delta[2];
+    k3 -= delta[3];
+    k4 -= delta[4];
+    k5 -= delta[5];
 
+    // Print progress
+    if (iteration % 10 === 0) {
+        console.log(`Iteration ${iteration}: k0 = ${k0}, k1 = ${k1}, k2 = ${k2}, k3 = ${k3}, k4 = ${k4}, k5 = ${k5}`);
+    }
+}
+
+console.log(`Final coefficients: k0 = ${k0}, k1 = ${k1}, k2 = ${k2}, k3 = ${k3}, k4 = ${k4}, k5 = ${k5}`);
     // Update the knob values in the DOM
     document.getElementById('k0').value = k0.toFixed(4);
     document.getElementById('k1').value = k1.toFixed(4);
@@ -362,7 +407,7 @@ gradientDescentRun = true;
 
 document.getElementById('right-column-curve-fitter').addEventListener('click', function() {
       runGradientDescent();
-  alert(`We use Gradient Descent here to fit the curve to the data points. The actual curve equation is: y = ${randomK0} + ${randomK1}x + ${randomK2}x^2 + ${randomK3}x^3 + ${randomK4}x^4 + ${randomK5}x^5. The equation we got from Gradient descent is: y = ${document.getElementById('k0').value} + ${document.getElementById('k1').value}x + ${document.getElementById('k2').value}x^2 + ${document.getElementById('k3').value}x^3 + ${document.getElementById('k4').value}x^4 + ${document.getElementById('k5').value} x^5.`);
+  alert(`We use Netwon's Method here to fit the curve to the data points. The actual curve equation is: y = ${randomK0} + ${randomK1}x + ${randomK2}x^2 + ${randomK3}x^3 + ${randomK4}x^4 + ${randomK5}x^5. The equation we got from Gradient descent is: y = ${document.getElementById('k0').value} + ${document.getElementById('k1').value}x + ${document.getElementById('k2').value}x^2 + ${document.getElementById('k3').value}x^3 + ${document.getElementById('k4').value}x^4 + ${document.getElementById('k5').value} x^5.`);
 });
 
 resetKnobValues();
